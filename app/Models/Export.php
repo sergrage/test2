@@ -32,4 +32,17 @@ class Export extends Model
         return $this->hasOne(SaleRoute::class, 'id', 'sale_route_id');
     }
 
+    public function scopeSalesEfficiency($query, $year, $month, $flags)
+    {
+        return $query->join('sale_routes', 'exports.sale_route_id', '=', 'sale_routes.id')
+    		->join('offices', 'sale_routes.office_id', '=', 'offices.id')
+    		->join('meeting_statuses', 'exports.meeting_status_id', '=', 'meeting_statuses.id')
+            ->whereNotIn('flags', $flags)
+            ->where('sign', '=', 'sale')
+            ->whereYear('closed_at', '=', $year)
+            ->whereMonth('closed_at', '=', $month)
+            ->select('offices.name', 'exports.total_max', 'exports.total')
+            ->get();
+    }
+
 }

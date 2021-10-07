@@ -14,4 +14,9 @@ class Office extends Model
         'name',
         'timezone_utc_offset',
     ];
+
+    public function scopeAllNames($query)
+    {
+        return $query->pluck('name');
+    }
 }

@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exports\EfficienciesReport;
 
 class ReportController extends Controller
 {
-    public function getAll()
-    {
-    	# code...
+    protected $report;
+
+    public function __construct(EfficienciesReport $report) {
+        $this->report = $report;
     }
 
-    public function get()
+    public function index()
     {
-    	# code...
+    	$reports = $this->report->get();
+    	return view('welcome', compact('reports'));
     }
 }
